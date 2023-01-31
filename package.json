@@ -1,0 +1,9 @@
+{
+  "name": "fridayfinance_challenge_server",
+  "version": "1.0.0",
+  "description": "Simple apollo server with graphQL, prisma and postgres for the friday finance coding challenge",
+  "main": "index.js",
+  "repository": "https://github.com/tobi110289/fridayfinance_challenge_server",
+  "author": "Tobias Feltes",
+  "license": "MIT"
+}
