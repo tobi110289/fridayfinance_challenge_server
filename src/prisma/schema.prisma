@@ -11,21 +11,21 @@ datasource db {
 }
 
 model Account {
-  id   String @unique
+  id   String @id @default(uuid())
   Transactions Transaction[]
   name String
   bank String
 }
 
 model Category {
-  id    String @unique
+  id    String @id @default(uuid())
   Transactions Transaction[]
   name  String
   color String?
 }
 
 model Transaction {
-  id          String @unique
+  id          String @id @default(uuid())
   account_id  String 
   Account     Account @relation(fields: [account_id], references: [id])
   category_id String?
