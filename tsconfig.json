@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "rootDirs": ["src"],
-    "outDir": "dist",
+    "baseUrl": "./src",
+    "outDir": "./dist",
     "lib": ["es2020"],
-    "target": "es2020",
-    "module": "esnext",
+    "target": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "types": ["node"]
-  }
+    "types": ["node"],
+    "strict": true,
+    "skipLibCheck": true
+  },
 }

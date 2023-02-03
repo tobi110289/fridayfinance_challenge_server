@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  database:
+    image: postgres:13
+    container_name: database
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ff
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - database:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - ff
+  fridayfinance:
+    depends_on: 
+      - database
+    build:
+      context: .
+      args:
+        - POSTGRES_HOST=app-postgres
+        - POSTGRES_PWD=postgres
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - .:/app
+    container_name: fridayfinance
+    ports:
+      - '${PORT}:${PORT}'
+    networks:
+      - ff
+    environment:
+      - 'DATABASE_URL=${DATABASE_URL}'
+    stdin_open: true
+networks:
+  ff:
+    driver: bridge
+volumes:
+  database:
