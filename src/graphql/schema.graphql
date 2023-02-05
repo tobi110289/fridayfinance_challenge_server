@@ -16,10 +16,20 @@ input TransactionInput {
   id: String!
   category_id: String!
 }
+input TransactionQueryInput {
+  first: Int
+  after: Int
+  bank: String
+  account: String
+  reference: String
+  category: String
+  startDate: String
+  endDate: String
+}
 type Transaction {
   id: String!
-  account_id: String!
-  category_id: String
+  account: Account!
+  category: Category
   reference: String
   amount: Float!
   currency: String!
@@ -28,7 +38,16 @@ type Transaction {
 type Query {
   getAccounts: [Account]
   getCategories: [Category]
-  getTransactions: [Transaction]
+  getTransactions(
+    first: Int
+    after: Int
+    bank: String
+    account: String
+    reference: String
+    category: String
+    startDate: String
+    endDate: String
+  ): [Transaction]
 }
 type Mutation {
   updateTransactionCategory(id: String!, category_id: String!): Transaction

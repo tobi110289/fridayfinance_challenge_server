@@ -57,11 +57,23 @@ export type Query = {
   getTransactions?: Maybe<Array<Maybe<Transaction>>>;
 };
 
+
+export type QueryGetTransactionsArgs = {
+  account?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['Int']>;
+  bank?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<Scalars['String']>;
+  endDate?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  reference?: InputMaybe<Scalars['String']>;
+  startDate?: InputMaybe<Scalars['String']>;
+};
+
 export type Transaction = {
   __typename?: 'Transaction';
-  account_id: Scalars['String'];
+  account: Account;
   amount: Scalars['Float'];
-  category_id?: Maybe<Scalars['String']>;
+  category?: Maybe<Category>;
   currency: Scalars['String'];
   date: Scalars['String'];
   id: Scalars['String'];
@@ -71,6 +83,17 @@ export type Transaction = {
 export type TransactionInput = {
   category_id: Scalars['String'];
   id: Scalars['String'];
+};
+
+export type TransactionQueryInput = {
+  account?: InputMaybe<Scalars['String']>;
+  after?: InputMaybe<Scalars['Int']>;
+  bank?: InputMaybe<Scalars['String']>;
+  category?: InputMaybe<Scalars['String']>;
+  endDate?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  reference?: InputMaybe<Scalars['String']>;
+  startDate?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -147,11 +170,13 @@ export type ResolversTypes = {
   Category: ResolverTypeWrapper<Category>;
   CategoryInput: CategoryInput;
   Float: ResolverTypeWrapper<Scalars['Float']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Transaction: ResolverTypeWrapper<Transaction>;
   TransactionInput: TransactionInput;
+  TransactionQueryInput: TransactionQueryInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -161,11 +186,13 @@ export type ResolversParentTypes = {
   Category: Category;
   CategoryInput: CategoryInput;
   Float: Scalars['Float'];
+  Int: Scalars['Int'];
   Mutation: {};
   Query: {};
   String: Scalars['String'];
   Transaction: Transaction;
   TransactionInput: TransactionInput;
+  TransactionQueryInput: TransactionQueryInput;
 };
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
@@ -190,13 +217,13 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAccounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Account']>>>, ParentType, ContextType>;
   getCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
-  getTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType>;
+  getTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType, Partial<QueryGetTransactionsArgs>>;
 };
 
 export type TransactionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Transaction'] = ResolversParentTypes['Transaction']> = {
-  account_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>;
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  category_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
