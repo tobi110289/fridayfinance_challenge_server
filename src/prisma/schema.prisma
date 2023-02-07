@@ -24,9 +24,9 @@ model Category {
 model Transaction {
   id          String @id @default(uuid())
   account_id  String 
-  Account     Account @relation(fields: [account_id], references: [id])
+  Account     Account @relation(fields: [account_id], references: [id], onDelete: Cascade)
   category_id String?
-  Category    Category? @relation(fields: [category_id], references: [id])
+  Category    Category? @relation(fields: [category_id], references: [id], onDelete: SetNull)
   reference   String?
   amount      Float
   currency    String
