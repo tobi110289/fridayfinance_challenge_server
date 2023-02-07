@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
 };
 
 export type Account = {
@@ -46,8 +47,7 @@ export type MutationCreateCategoryArgs = {
 
 
 export type MutationUpdateTransactionCategoryArgs = {
-  category_id: Scalars['String'];
-  id: Scalars['String'];
+  data: TransactionInput;
 };
 
 export type Query = {
@@ -55,16 +55,19 @@ export type Query = {
   getAccounts?: Maybe<Array<Maybe<Account>>>;
   getCategories?: Maybe<Array<Maybe<Category>>>;
   getTransactions?: Maybe<Array<Maybe<Transaction>>>;
+  getUniqueCategories?: Maybe<Array<Maybe<Transaction>>>;
 };
 
 
 export type QueryGetTransactionsArgs = {
   account?: InputMaybe<Scalars['String']>;
   after?: InputMaybe<Scalars['Int']>;
+  amount?: InputMaybe<Scalars['Float']>;
   bank?: InputMaybe<Scalars['String']>;
   category?: InputMaybe<Scalars['String']>;
   endDate?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
   reference?: InputMaybe<Scalars['String']>;
   startDate?: InputMaybe<Scalars['String']>;
 };
@@ -75,7 +78,7 @@ export type Transaction = {
   amount: Scalars['Float'];
   category?: Maybe<Category>;
   currency: Scalars['String'];
-  date: Scalars['String'];
+  date: Scalars['Date'];
   id: Scalars['String'];
   reference?: Maybe<Scalars['String']>;
 };
@@ -88,10 +91,12 @@ export type TransactionInput = {
 export type TransactionQueryInput = {
   account?: InputMaybe<Scalars['String']>;
   after?: InputMaybe<Scalars['Int']>;
+  amount?: InputMaybe<Scalars['Float']>;
   bank?: InputMaybe<Scalars['String']>;
   category?: InputMaybe<Scalars['String']>;
   endDate?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
   reference?: InputMaybe<Scalars['String']>;
   startDate?: InputMaybe<Scalars['String']>;
 };
@@ -169,6 +174,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Category: ResolverTypeWrapper<Category>;
   CategoryInput: CategoryInput;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -185,6 +191,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Category: Category;
   CategoryInput: CategoryInput;
+  Date: Scalars['Date'];
   Float: Scalars['Float'];
   Int: Scalars['Int'];
   Mutation: {};
@@ -209,15 +216,20 @@ export type CategoryResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'data'>>;
-  updateTransactionCategory?: Resolver<Maybe<ResolversTypes['Transaction']>, ParentType, ContextType, RequireFields<MutationUpdateTransactionCategoryArgs, 'category_id' | 'id'>>;
+  updateTransactionCategory?: Resolver<Maybe<ResolversTypes['Transaction']>, ParentType, ContextType, RequireFields<MutationUpdateTransactionCategoryArgs, 'data'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAccounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Account']>>>, ParentType, ContextType>;
   getCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
   getTransactions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType, Partial<QueryGetTransactionsArgs>>;
+  getUniqueCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Transaction']>>>, ParentType, ContextType>;
 };
 
 export type TransactionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Transaction'] = ResolversParentTypes['Transaction']> = {
@@ -225,7 +237,7 @@ export type TransactionResolvers<ContextType = any, ParentType extends Resolvers
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
   currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   reference?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -234,6 +246,7 @@ export type TransactionResolvers<ContextType = any, ParentType extends Resolvers
 export type Resolvers<ContextType = any> = {
   Account?: AccountResolvers<ContextType>;
   Category?: CategoryResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Transaction?: TransactionResolvers<ContextType>;

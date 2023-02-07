@@ -26,9 +26,11 @@
   },
   "scripts": {
     "compile": "yarn run generate && rm -rf dist && tsc -p tsconfig.json && copyfiles -f ./src/graphql/*.graphql dist/graphql",
-    "start": "yarn run compile && node ./dist/index.js",
+    "start": "yarn run compile && docker-compose up",
     "migrate": "prisma migrate dev --name init",
-    "generate": "graphql-codegen --config ./codegen.yml"
+    "generate": "graphql-codegen --config ./codegen.yml",
+    "initdb": "yarn run migrate && yarn prisma db seed"
+
   },
   "prisma": {
     "seed": "node ./dist/prisma/seed.js",
