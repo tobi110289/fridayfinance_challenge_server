@@ -22,8 +22,8 @@ to find out what IP the instance is running on).
 If you encounter any issues while setting up the environment or running the server, please feel free to reach out.
 
 ## If I had more time I would..
-1. Refactor the seed script for easier testing and readability
-2. When seeding the database, put in the transactions sorted by date
+~~1. Refactor the seed script for easier testing and readability~~
+~~2. When seeding the database, put in the transactions sorted by date~~
 3. Optimize the graphql query to improve pagination performance
 4. Write tests for the resolvers
 5. Optimize the Dockerfile to automate more of the setup
